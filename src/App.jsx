@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./index.css";
 import ChatForm from "./components/ChatForm";
-import ChatMessage from "./components/chatMessage";
+import ChatMessage from "./components/ChatMessage";
 
 export default function App() {
   const [open, setOpen] = useState(false);
