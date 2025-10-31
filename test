@@ -1,0 +1,122 @@
+import React, { useState } from "react";
+import "./index.css";
+import ChatForm from "./components/ChatForm";
+
+export default function App() {
+  const [open, setOpen] = useState(false);
+  const [input, setInput] = useState("");
+
+  const messages = [
+    { id: 1, from: "bot", text: "Hey there 👋\nHow can I help you today?" },
+  ];
+
+  function toggleOpen() {
+    setOpen((v) => !v);
+  }
+
+  return (
+    <div className="app-root">
+      <div className="page-bg" />
+
+      <div
+        className={`chat-panel ${open ? "open" : ""}`}
+        role="dialog"
+        aria-label="Chatbot panel"
+      >
+        <div className="chat-header">
+          <div className="chat-title">
+            <div className="avatar">🤖</div>
+            <div className="title-text">Chatbot</div>
+          </div>
+          <button
+            className="collapse-btn"
+            aria-label="Collapse chat"
+            onClick={toggleOpen}
+          >
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 9l6 6 6-6"
+                stroke="white"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div className="chat-body">
+          <div className="messages" aria-live="polite">
+            {messages.map((m) => (
+              <div
+                key={m.id}
+                className={`message ${m.from === "bot" ? "bot" : "user"}`}
+              >
+                {m.from === "bot" && <div className="msg-avatar">🤖</div>}
+                <div className="msg-bubble">
+                  {m.text.split("\n").map((line, i) => (
+                    <div key={i}>{line}</div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <ChatForm value={input} onChange={(e) => setInput(e.target.value)} />          
+        </div>
+      </div>
+
+      <div className="floating-controls">
+        {!open && (
+          <button className="fab" aria-label="Open chat" onClick={toggleOpen}>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                stroke="white"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        )}
+
+        {open && (
+          <button
+            className="fab small"
+            aria-label="Close chat"
+            onClick={toggleOpen}
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 6L6 18M6 6l12 12"
+                stroke="white"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
